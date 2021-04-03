@@ -1,0 +1,196 @@
+// TAMPILAN MENU.xml//
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_gravity="center_vertical"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ImageView
+            android:layout_weight="1"
+            android:id="@+id/ivtest2"
+            android:onClick="clicktest2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/test2" />
+
+        <ImageView
+            android:id="@+id/ivtest1"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/test4" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ImageView
+            android:layout_weight="1"
+            android:id="@+id/ivtest3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/test3" />
+
+        <ImageView
+            android:id="@+id/ivtest4"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/test1" />
+    </TableRow>
+
+
+
+
+//MAIN ACTIVITY.JAVA//
+package com.example.ronyapss;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.tampilan_menu);
+    }
+
+    public void clicktest2(View view) {
+
+            Intent i = new Intent(this,test2.class);
+            startActivity(i);
+
+    }
+
+}
+
+
+
+
+
+//TEST2.JAVA//
+
+
+package com.example.ronyapss;
+
+import android.app.ListActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+public class test2 extends ListActivity {
+    protected void onCreate(Bundle icicle) {
+        super.onCreate(icicle);
+        String[] ListTest2 = new String[]{"UIN", "UNRI", "UIR"};
+        this.setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ListTest2));
+    }
+
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        Object o = this.getListAdapter().getItem(position);
+        String pilihan = o.toString();
+        tampilkanpilihan(pilihan);
+
+    }
+
+    private void tampilkanpilihan(String pilihan) {
+        try {
+            Intent a = null;
+            if (pilihan.equals("UIN")) {
+                a = new Intent(this, Spongebob.class);
+
+
+            } else if (pilihan.equals("UNRI")) {
+
+            }
+            startActivity(a);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+}
+
+
+
+
+
+
+
+//SPONGEBOB.JAVA//
+
+package com.example.ronyapss;
+
+import android.app.ListActivity;
+import android.app.SearchManager;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+public class Spongebob extends ListActivity {
+    protected void onCreate (Bundle icicle) {
+        super.onCreate(icicle);
+        String[]ListAction =new String [] {"call center","SMS center","Driving direction", "website","exit"};
+        this.setListAdapter(new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, ListAction));
+    }
+    protected void onListItemClick (ListView l, View v, int position, long id){
+        super.onListItemClick(l, v, position, id);
+        Object o = this.getListAdapter().getItem(position);
+        String pilihan = o.toString();
+        tampilkanpilihan(pilihan);
+
+    }
+
+    private void tampilkanpilihan(String pilihan) {
+        try {
+            Intent a= null;
+            if (pilihan.equals("call center")) {
+               String nomortel ="tel:082267789669";
+                a = new Intent(Intent.ACTION_DIAL, Uri.parse(nomortel));
+
+
+
+            } else if (pilihan.equals("SMS center"))
+            {
+            String smsText = "Rony Oktavaizar";
+            a = new Intent(Intent.ACTION_VIEW);
+            a.setData(Uri.parse("sms:082286776969"));
+            a.putExtra("sms_body",smsText);
+
+            }else if (pilihan.equals("Driving direction"))
+            {
+                String lokasirs = "google.navigation:q=0.465977,101.356534";
+                a = new Intent(Intent.ACTION_VIEW,Uri.parse(lokasirs));
+            }else if (pilihan.equals("website")) {
+                String website = "https://uin-suska.ac.id/";
+                a = new Intent(Intent.ACTION_VIEW, Uri.parse(website));
+
+
+
+            }
+            startActivity(a);
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+}
